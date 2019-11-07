@@ -17,7 +17,7 @@ def loadModel():
     return loaded
 
 
-# model = loadModel()
+model = loadModel()
 
 
 @app.route('/word-from/<input>')
