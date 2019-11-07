@@ -1,5 +1,6 @@
 import time
 import random
+import os
 import gensim
 from flask import Flask
 
@@ -16,7 +17,7 @@ def loadModel():
     return loaded
 
 
-model = loadModel()
+# model = loadModel()
 
 
 @app.route('/word-from/<input>')
@@ -35,4 +36,4 @@ def wordchain(input):
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", debug=True)
+    app.run(host="0.0.0.0", debug=False, port=int(os.environ.get('PORT', 5000)))
