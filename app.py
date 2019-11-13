@@ -11,7 +11,7 @@ app = Flask(__name__)
 def loadModel():
     start = time.time()
     print('モデルの読み込み開始...')
-    loaded = gensim.models.KeyedVectors.load_word2vec_format('model.vec', binary=False)
+    loaded = gensim.models.KeyedVectors.load_word2vec_format('model.bin', binary=True)
     print('モデルの読み込み終了')
     print(time.time() - start)
     return loaded
