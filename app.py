@@ -2,22 +2,14 @@ import time
 import random
 import os
 import gensim
-from flask import Flask
+from flask import Flask, jsonify
+from flask_cors import CORS
 
 
 app = Flask(__name__)
-
-
-def loadModel():
-    start = time.time()
-    print('モデルの読み込み開始...')
-    loaded = gensim.models.KeyedVectors.load_word2vec_format('model.bin', binary=True)
-    print('モデルの読み込み終了')
-    print(time.time() - start)
-    return loaded
-
-
-model = loadModel()
+app.config['JSON_AS_ASCII'] = False
+CORS(app)
+model = gensim.models.KeyedVectors.load_word2vec_format('model.bin', binary=True)
 
 
 @app.route('/word-from/<input>')
@@ -32,7 +24,7 @@ def wordchain(input):
                 results.append(word)
                 input = word
                 break
-    return "<br>↓<br>".join(results)
+    return jsonify(words=results)
 
 
 if __name__ == "__main__":
