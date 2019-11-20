@@ -6,7 +6,7 @@ from flask import Flask, jsonify
 from flask_cors import CORS
 
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='client/dist', static_url_path='')
 app.config['JSON_AS_ASCII'] = False
 CORS(app)
 model = gensim.models.KeyedVectors.load_word2vec_format('model.bin', binary=True)
