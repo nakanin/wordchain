@@ -13,4 +13,5 @@ RUN wget --load-cookies /tmp/cookies.txt "https://drive.google.com/uc?export=dow
     && rm -rf model.vec
 
 COPY app.py /code
+COPY client/dist/ /code/client/dist/
 CMD python app.py
