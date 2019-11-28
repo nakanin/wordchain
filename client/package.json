@@ -1,7 +1,7 @@
 {
-  "name": "nuxt-buefy-template-20191109",
+  "name": "wordchain",
   "version": "1.0.0",
-  "description": "My shining Nuxt.js project",
+  "description": "Word chaining tool.",
   "author": "Naotaka Nakanishi",
   "private": true,
   "scripts": {
