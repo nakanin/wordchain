@@ -8,7 +8,7 @@
           type="text"
           placeholder="何から始めますか？"
           autofocus
-          @keyup.enter="getWords"
+          @keydown.enter="triggerGetWords"
         >
       </div>
 
@@ -53,6 +53,11 @@ export default {
   },
 
   methods: {
+    triggerGetWords (event) {
+      if (event.keyCode === 13) {
+        this.getWords()
+      }
+    },
     getWords () {
       this.words = []
       this.hasError = false
