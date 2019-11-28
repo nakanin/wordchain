@@ -13,7 +13,11 @@
       </div>
 
       <div>
-        <button class="button is-info is-large" @click="getWords">
+        <button
+          class="button is-info is-large"
+          :class="{ 'is-loading': thinking }"
+          @click="getWords"
+        >
           スタート
         </button>
       </div>
@@ -48,6 +52,7 @@ export default {
     return {
       start: '',
       words: [],
+      thinking: false,
       hasError: false
     }
   },
@@ -59,6 +64,10 @@ export default {
       }
     },
     getWords () {
+      if (this.thinking) {
+        return
+      }
+
       this.words = []
       this.hasError = false
 
@@ -66,6 +75,7 @@ export default {
         return
       }
 
+      this.thinking = true
       this.$axios.get('word-from/' + this.start)
         .then((response) => {
           for (let i = 0; i < response.data.words.length; i++) {
@@ -76,6 +86,9 @@ export default {
         })
         .catch(() => {
           this.hasError = true
+        })
+        .finally(() => {
+          this.thinking = false
         })
     }
   }
