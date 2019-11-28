@@ -100,6 +100,9 @@ export default {
     width: 500px;
     margin-bottom: 20px;
   }
+  input {
+    display: inline;
+  }
   .output-list {
     display: inline-block;
     width: 500px;
