@@ -30,7 +30,7 @@
           class="output-list has-text-left"
         >
           <li v-for="word in words" :key="word">
-            <span class="is-size-3">{{ word }}</span>
+            <span class="is-size-4">{{ word }}</span>
           </li>
         </transition-group>
 
