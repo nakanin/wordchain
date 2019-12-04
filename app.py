@@ -2,7 +2,8 @@ import time
 import random
 import os
 import gensim
-from flask import Flask, jsonify
+import MeCab
+from flask import Flask, request, jsonify
 from flask_cors import CORS
 
 
@@ -14,6 +15,15 @@ model = gensim.models.KeyedVectors.load_word2vec_format('model.bin', binary=True
 
 @app.route('/word-from/<input>')
 def wordchain(input):
+    if request.args.get('type', 'renso') == 'renso':
+        results = associate(input)
+    else:
+        results = shiritori(input)
+
+    return jsonify(words=results)
+
+
+def associate(input):
     results = [input]
     for i in range(10):
         similars = model.most_similar(positive=[input])
@@ -24,7 +34,33 @@ def wordchain(input):
                 results.append(word)
                 input = word
                 break
-    return jsonify(words=results)
+    return results
+
+
+def makeDictionary():
+    dic = {}
+    for line in open('Noun.csv', 'r', encoding='euc_jp'):
+        values = line.strip().split(',')
+        word = values[0]
+        kana = values[-2]
+        word = word + '（' + kana + '）'
+        if not kana[-1] in ['ン', 'ィ', 'ャ', 'ュ', 'ョ', 'ー']:
+            words = dic.setdefault(kana[0], [])
+            words.append((word, kana[-1]))
+    return dic
+
+
+def shiritori(input):
+    dic = makeDictionary()
+    mecab = MeCab.Tagger('-Oyomi')
+    last = mecab.parse(input)[-2]
+
+    results = [input]
+    for i in range(10):
+        words = dic.get(last)
+        (word, last) = random.choice(words)
+        results.append(word)
+    return results
 
 
 if __name__ == "__main__":

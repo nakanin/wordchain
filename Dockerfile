@@ -1,5 +1,15 @@
 FROM python:3.7
 WORKDIR /code
+
+RUN apt-get update && apt-get install -y \
+    mecab \
+    mecab-ipadic \
+    libmecab-dev \
+    mecab-ipadic-utf8 \
+    swig \
+  && apt-get clean \
+  && rm -rf /var/lib/apt/lists/*
+
 COPY requirements.txt .
 RUN pip install -r requirements.txt
 
@@ -13,5 +23,6 @@ RUN wget --load-cookies /tmp/cookies.txt "https://drive.google.com/uc?export=dow
     && rm -rf model.vec
 
 COPY app.py /code
+COPY Noun.csv /code
 COPY client/dist/ /code/client/dist/
 CMD python app.py
