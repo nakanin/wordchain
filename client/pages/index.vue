@@ -36,7 +36,7 @@
 
         <transition enter-active-class="animated fadeIn">
           <p v-if="hasError" class="is-size-5">
-            うーん、そんな単語は聞いたことがないですね。
+            {{ errorMessage }}
           </p>
         </transition>
       </div>
@@ -57,20 +57,37 @@ export default {
     }
   },
 
+  computed: {
+    errorMessage () {
+      if (this.$store.state.shiritori) {
+        return 'しりとりが始められません！'
+      } else {
+        return 'うーん、そんな単語は聞いたことがないですね。'
+      }
+    }
+  },
+
+  watch: {
+    '$store.state.shiritori' () {
+      this.clear()
+    }
+  },
+
   methods: {
     triggerGetWords (event) {
       if (event.keyCode === 13) {
         this.getWords()
       }
     },
+    clear () {
+      this.words = []
+      this.hasError = false
+    },
     getWords () {
       if (this.thinking) {
         return
       }
-
-      this.words = []
-      this.hasError = false
-
+      this.clear()
       if (!this.start) {
         return
       }
