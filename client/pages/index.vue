@@ -76,7 +76,8 @@ export default {
       }
 
       this.thinking = true
-      this.$axios.get('word-from/' + this.start)
+      const type = this.$store.state.shiritori ? 'shiritori' : 'renso'
+      this.$axios.get(`word-from/${this.start}?type=${type}`)
         .then((response) => {
           for (let i = 0; i < response.data.words.length; i++) {
             const prefix = (i === 0 ? '' : '→ ')

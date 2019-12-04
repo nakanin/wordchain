@@ -6,12 +6,22 @@
       aria-label="main navigation"
     >
       <div class="navbar-brand is-size-3">
-        <a
-          class="navbar-item"
-          href="/"
-        >
-          単語を連想してみるよ
-        </a>
+        <p class="navbar-item">
+          単語を{{ caption }}してみるよ
+        </p>
+      </div>
+
+      <div class="navbar-end">
+        <div class="navbar-item">
+          <b-switch
+            v-model="shiritori"
+            class="is-medium"
+            type="is-light"
+            @input="toggle"
+          >
+            しりとりモード
+          </b-switch>
+        </div>
       </div>
     </nav>
 
@@ -24,10 +34,21 @@
 </template>
 
 <script>
+import { mapMutations } from 'vuex'
+
 export default {
   data () {
     return {
+      shiritori: false
     }
+  },
+  computed: {
+    caption: vm => vm.shiritori ? 'しりとり' : '連想'
+  },
+  methods: {
+    ...mapMutations({
+      toggle: 'toggleShiritori'
+    })
   }
 }
 </script>
